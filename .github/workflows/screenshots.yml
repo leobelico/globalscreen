@@ -1,0 +1,32 @@
+name: Screenshot Monitor
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Cada 6 horas
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar Puppeteer en carpeta separada
+        run: |
+          mkdir -p /tmp/puppeteer-runner
+          cd /tmp/puppeteer-runner
+          npm init -y
+          npm install puppeteer
+      - name: Correr screenshots
+        run: node screenshots.js
+        env:
+          NODE_PATH: /tmp/puppeteer-runner/node_modules
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ github.run_id }}
+          path: screenshots/
+          retention-days: 30
