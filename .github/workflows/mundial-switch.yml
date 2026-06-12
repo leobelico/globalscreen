@@ -1,13 +1,15 @@
 # ============================================================
-#  mundial-switch.yml
+#  mundial-switch.yml  —  VERSIÓN COMPLETA
 #  Cambia entre versión MUNDIAL (ac2cd24) y BANNER (148e330)
-#  automáticamente según el calendario del Mundial 2026.
 #
-#  Horarios en México CDT (UTC-5). Partidos duran ~2h.
-#  → MUNDIAL: 30 min ANTES de que empiece el primer partido del bloque
-#  → BANNER:  30 min DESPUÉS de que termina el último partido del bloque
+#  Horarios México CDT (UTC-5). Partido ~2h.
+#  MUNDIAL: 30 min ANTES del primer partido del día
+#  BANNER:  30 min DESPUÉS del último partido del día
 #
-#  IMPORTANTE: Reemplaza las variables en "env:" con tus valores reales.
+#  Fase de grupos: horarios exactos de ESPN (confirmados)
+#  Eliminatorias: horarios placeholder 10:30 mx activación /
+#                 23:30 mx restauración — ACTUALIZAR cuando
+#                 FIFA confirme cruces y horarios.
 # ============================================================
 
 name: Mundial 2026 – Version Switch
@@ -15,130 +17,164 @@ name: Mundial 2026 – Version Switch
 on:
   schedule:
 
-    # ── 11 JUN ── México vs Sudáfrica 13:00 / Corea vs UEFA4 20:00
-    - cron: '30 17 11 6 *'   # 12:30 mx → MUNDIAL  (30min antes de 13:00)
-    - cron: '30 03 12 6 *'   # 22:30 mx → BANNER   (30min después de 22:00 fin)
-
-    # ── 12 JUN ── Canadá vs UEFA1 13:00 / EUA vs Paraguay 19:00
-    - cron: '30 17 12 6 *'   # 12:30 mx → MUNDIAL
-    - cron: '30 02 13 6 *'   # 21:30 mx → BANNER
-
-    # ── 13 JUN ── Catar vs Suiza 13:00 / Brasil vs Marruecos 16:00 / Haití vs Escocia 19:00 / Australia vs UEFA3 22:00
-    - cron: '30 17 13 6 *'   # 12:30 mx → MUNDIAL
-    - cron: '30 05 14 6 *'   # 00:30 mx del 14 → BANNER
-
-    # ── 14 JUN ── Alemania vs Curazao 11:00 / P.Bajos vs Japón 14:00 / CI vs Ecuador 17:00 / UEFA2 vs Túnez 20:00
-    - cron: '30 15 14 6 *'   # 10:30 mx → MUNDIAL
-    - cron: '30 03 15 6 *'   # 22:30 mx → BANNER
-
-    # ── 15 JUN ── Bélgica vs Egipto 13:00 / España vs Cabo Verde 10:00 / Arabia vs Uruguay 16:00 / Irán vs NZ 19:00
-    - cron: '30 14 15 6 *'   # 09:30 mx → MUNDIAL
-    - cron: '30 01 16 6 *'   # 20:30 mx → BANNER
-
-    # ── 16 JUN ── Francia vs Senegal 13:00 / IC2 vs Noruega 16:00
-    - cron: '30 17 16 6 *'   # 12:30 mx → MUNDIAL
-    - cron: '30 00 17 6 *'   # 19:30 mx → BANNER  (fin 18:00 + 2h30 = 20:30, pero bloque termina a 18h)
-    # Nota: último partido 16:00→18:00 → BANNER a las 18:30 mx = 23:30 UTC
-    # Corrección:
-    # - cron: '30 23 16 6 *'  # 18:30 mx → BANNER  ← usa esta línea si solo hay 2 partidos ese día
-
-    # ── 17 JUN ── Uzbekistán vs Colombia 20:00 (Ciudad de México)
-    - cron: '30 00 18 6 *'   # 19:30 mx → MUNDIAL
-    - cron: '30 03 18 6 *'   # 22:30 mx → BANNER
-
-    # ── 18 JUN ── UEFA4 vs Sudáfrica 10:00 / Suiza vs UEFA1 13:00 / Canadá vs Catar 16:00 / México vs Corea 19:00
-    - cron: '30 14 18 6 *'   # 09:30 mx → MUNDIAL
-    - cron: '30 03 19 6 *'   # 22:30 mx → BANNER
-
-    # ── 19 JUN ── EUA vs Australia 13:00 / Escocia vs Marruecos 16:00 / Brasil vs Haití 19:00 / UEFA3 vs Paraguay 22:00
-    - cron: '30 17 19 6 *'   # 12:30 mx → MUNDIAL
-    - cron: '30 05 20 6 *'   # 00:30 mx del 20 → BANNER
-
-    # ── 20 JUN ── P.Bajos vs UEFA2 11:00 / Alemania vs CI 14:00 / Ecuador vs Curazao 18:00 / Túnez vs Japón 22:00
-    - cron: '30 15 20 6 *'   # 10:30 mx → MUNDIAL
-    - cron: '30 05 21 6 *'   # 00:30 mx del 21 → BANNER
-
-    # ── 21 JUN ── España vs Arabia 10:00 / Bélgica vs Irán 13:00 / Uruguay vs Cabo Verde 16:00 / NZ vs Egipto 19:00
-    - cron: '30 14 21 6 *'   # 09:30 mx → MUNDIAL
-    - cron: '30 03 22 6 *'   # 22:30 mx → BANNER
-
-    # ── 22 JUN ── Francia vs IC2 15:00 / Noruega vs Senegal 18:00
-    - cron: '30 19 22 6 *'   # 14:30 mx → MUNDIAL
-    - cron: '30 01 23 6 *'   # 20:30 mx → BANNER
-
-    # ── 23 JUN ── (partidos de grupos J, K, L – pendiente horarios exactos, placeholder)
-    # Ajusta cuando se publiquen horarios definitivos
-    - cron: '30 14 23 6 *'   # placeholder 09:30 mx → MUNDIAL
-    - cron: '30 05 24 6 *'   # placeholder 00:30 mx → BANNER
-
-    # ── 24 JUN ── UEFA4 vs México 19:00 / Sudáfrica vs Corea 19:00 / Suiza vs Canadá 13:00 / ...
-    - cron: '30 17 24 6 *'   # 12:30 mx → MUNDIAL  (primer partido 13:00)
-    - cron: '30 04 25 6 *'   # 23:30 mx → BANNER   (último partido 19:00→21:00)
-
-    # ── 25 JUN ── Ecuador vs Alemania 14:00 / Curazao vs CI 14:00 / Japón vs UEFA2 17:00 / Túnez vs P.Bajos 17:00
-    - cron: '30 18 25 6 *'   # 13:30 mx → MUNDIAL
-    - cron: '30 01 26 6 *'   # 20:30 mx → BANNER
-
-    # ── 26 JUN ── Noruega vs Francia 13:00 / Senegal vs IC2 13:00 / CB vs Arabia 18:00 / Uruguay vs España 18:00 / ...
-    - cron: '30 17 26 6 *'   # 12:30 mx → MUNDIAL
-    - cron: '30 04 27 6 *'   # 23:30 mx → BANNER
-
-    # ── 27 JUN ── (últimos partidos fase de grupos – ajustar horarios)
-    - cron: '30 14 27 6 *'   # placeholder
-    - cron: '30 05 28 6 *'   # placeholder
-
     # ════════════════════════════════════════════════
-    # ELIMINATORIAS (horarios placeholder – actualizar
-    # cuando FIFA confirme los cruces y horarios)
+    # FASE DE GRUPOS — horarios exactos
     # ════════════════════════════════════════════════
 
-    # ── 28 JUN al 3 JUL – Dieciseisavos (6 días, ~3 partidos/día)
-    - cron: '30 14 28 6 *'  # placeholder
-    - cron: '30 03 29 6 *'
-    - cron: '30 14 29 6 *'
-    - cron: '30 03 30 6 *'
-    - cron: '30 14 30 6 *'
-    - cron: '30 03  1 7 *'
-    - cron: '30 14  1 7 *'
-    - cron: '30 03  2 7 *'
-    - cron: '30 14  2 7 *'
-    - cron: '30 03  3 7 *'
-    - cron: '30 14  3 7 *'
-    - cron: '30 03  4 7 *'
+    # ── 11 JUN ── México 13:00 / Corea 20:00
+    # Primer partido 13:00 → mundial 12:30 = 17:30 UTC
+    # Último partido 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 12
+    - cron: '30 17 11 6 *'
+    - cron: '30 03 12 6 *'
 
-    # ── 4–7 JUL – Octavos
-    - cron: '30 14  4 7 *'
-    - cron: '30 03  5 7 *'
-    - cron: '30 14  5 7 *'
-    - cron: '30 03  6 7 *'
-    - cron: '30 14  6 7 *'
-    - cron: '30 03  7 7 *'
-    - cron: '30 14  7 7 *'
-    - cron: '30 03  8 7 *'
+    # ── 12 JUN ── Canadá 13:00 / EUA 19:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 19:00 + 2h = 21:00 → banner 21:30 = 02:30 UTC del 13
+    - cron: '30 17 12 6 *'
+    - cron: '30 02 13 6 *'
 
-    # ── 9–11 JUL – Cuartos
-    - cron: '30 14  9 7 *'
-    - cron: '30 03 10 7 *'
-    - cron: '30 14 10 7 *'
-    - cron: '30 03 11 7 *'
-    - cron: '30 14 11 7 *'
-    - cron: '30 03 12 7 *'
+    # ── 13 JUN ── Catar 13:00 / Brasil 16:00 / Haití 19:00 / Australia 22:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 22:00 + 2h = 00:00 → banner 00:30 = 05:30 UTC del 14
+    - cron: '30 17 13 6 *'
+    - cron: '30 05 14 6 *'
 
-    # ── 14–15 JUL – Semifinales
-    - cron: '30 14 14 7 *'
-    - cron: '30 03 15 7 *'
-    - cron: '30 14 15 7 *'
-    - cron: '30 03 16 7 *'
+    # ── 14 JUN ── Alemania 11:00 / P.Bajos 14:00 / CI 17:00 / UEFA2 20:00
+    # Primer 11:00 → mundial 10:30 = 15:30 UTC
+    # Último 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 15
+    - cron: '30 15 14 6 *'
+    - cron: '30 03 15 6 *'
 
-    # ── 18 JUL – Tercer lugar (11:00 mx placeholder)
+    # ── 15 JUN ── España 10:00 / Bélgica 13:00 / Arabia 16:00 / Irán 19:00
+    # Primer 10:00 → mundial 09:30 = 14:30 UTC
+    # Último 19:00 + 2h = 21:00 → banner 21:30 = 02:30 UTC del 16
+    - cron: '30 14 15 6 *'
+    - cron: '30 02 16 6 *'
+
+    # ── 16 JUN ── Francia 13:00 / IC2 16:00 / Argentina 19:00 / Austria 22:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 22:00 + 2h = 00:00 → banner 00:30 = 05:30 UTC del 17
+    - cron: '30 17 16 6 *'
+    - cron: '30 05 17 6 *'
+
+    # ── 17 JUN ── Portugal 11:00 / Inglaterra 14:00 / Ghana 17:00 / Uzbekistán 20:00
+    # Primer 11:00 → mundial 10:30 = 15:30 UTC
+    # Último 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 18
+    - cron: '30 15 17 6 *'
+    - cron: '30 03 18 6 *'
+
+    # ── 18 JUN ── UEFA4 10:00 / Suiza 13:00 / Canadá 16:00 / México 19:00
+    # Primer 10:00 → mundial 09:30 = 14:30 UTC
+    # Último 19:00 + 2h = 21:00 → banner 21:30 = 02:30 UTC del 19
+    - cron: '30 14 18 6 *'
+    - cron: '30 02 19 6 *'
+
+    # ── 19 JUN ── EUA 13:00 / Escocia 16:00 / Brasil 19:00 / UEFA3 22:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 22:00 + 2h = 00:00 → banner 00:30 = 05:30 UTC del 20
+    - cron: '30 17 19 6 *'
+    - cron: '30 05 20 6 *'
+
+    # ── 20 JUN ── P.Bajos 11:00 / Alemania 14:00 / Ecuador 18:00 / Túnez 22:00
+    # Primer 11:00 → mundial 10:30 = 15:30 UTC
+    # Último 22:00 + 2h = 00:00 → banner 00:30 = 05:30 UTC del 21
+    - cron: '30 15 20 6 *'
+    - cron: '30 05 21 6 *'
+
+    # ── 21 JUN ── España 10:00 / Bélgica 13:00 / Uruguay 16:00 / NZ 19:00
+    # Primer 10:00 → mundial 09:30 = 14:30 UTC
+    # Último 19:00 + 2h = 21:00 → banner 21:30 = 02:30 UTC del 22
+    - cron: '30 14 21 6 *'
+    - cron: '30 02 22 6 *'
+
+    # ── 22 JUN ── Argentina 11:00 / Francia 15:00 / Noruega 18:00 / Jordania 21:00
+    # Primer 11:00 → mundial 10:30 = 15:30 UTC
+    # Último 21:00 + 2h = 23:00 → banner 23:30 = 04:30 UTC del 23
+    - cron: '30 15 22 6 *'
+    - cron: '30 04 23 6 *'
+
+    # ── 23 JUN ── Portugal 11:00 / Inglaterra 14:00 / Panamá 17:00 / Colombia 20:00
+    # Primer 11:00 → mundial 10:30 = 15:30 UTC
+    # Último 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 24
+    - cron: '30 15 23 6 *'
+    - cron: '30 03 24 6 *'
+
+    # ── 24 JUN ── Suiza 13:00 / Qatar 13:00 / Escocia 16:00 / Marruecos 16:00 / UEFA4 19:00 / México 19:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 19:00 + 2h = 21:00 → banner 21:30 = 02:30 UTC del 25
+    - cron: '30 17 24 6 *'
+    - cron: '30 02 25 6 *'
+
+    # ── 25 JUN ── Ecuador 14:00 / Curazao 14:00 / Japón 17:00 / Túnez 17:00 / UEFA3 20:00 / Paraguay 20:00
+    # Primer 14:00 → mundial 13:30 = 18:30 UTC
+    # Último 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 26
+    - cron: '30 18 25 6 *'
+    - cron: '30 03 26 6 *'
+
+    # ── 26 JUN ── Noruega 13:00 / Senegal 13:00 / CB 18:00 / Arabia 18:00 / Egipto 21:00 / NZ 21:00
+    # Primer 13:00 → mundial 12:30 = 17:30 UTC
+    # Último 21:00 + 2h = 23:00 → banner 23:30 = 04:30 UTC del 27
+    - cron: '30 17 26 6 *'
+    - cron: '30 04 27 6 *'
+
+    # ── 27 JUN ── Croacia 15:00 / Panamá 15:00 / Colombia 17:30 / Uzbekistán 17:30 / Argelia 20:00 / Jordania 20:00
+    # Primer 15:00 → mundial 14:30 = 19:30 UTC
+    # Último 20:00 + 2h = 22:00 → banner 22:30 = 03:30 UTC del 28
+    - cron: '30 19 27 6 *'
+    - cron: '30 03 28 6 *'
+
+    # ════════════════════════════════════════════════
+    # ELIMINATORIAS — horarios PLACEHOLDER
+    # Actualizar cuando FIFA confirme cruces y horarios
+    # Se asume bloque 11:00–23:00 mx por día de partido
+    # ════════════════════════════════════════════════
+
+    # ── 28 JUN – 3 JUL ── Dieciseisavos (2 partidos/día)
+    - cron: '30 15 28 6 *'   # mundial ~10:30 mx
+    - cron: '30 04 29 6 *'   # banner  ~23:30 mx
+    - cron: '30 15 29 6 *'
+    - cron: '30 04 30 6 *'
+    - cron: '30 15 30 6 *'
+    - cron: '30 04  1 7 *'
+    - cron: '30 15  1 7 *'
+    - cron: '30 04  2 7 *'
+    - cron: '30 15  2 7 *'
+    - cron: '30 04  3 7 *'
+    - cron: '30 15  3 7 *'
+    - cron: '30 04  4 7 *'
+
+    # ── 4–7 JUL ── Octavos (2 partidos/día)
+    - cron: '30 15  4 7 *'
+    - cron: '30 04  5 7 *'
+    - cron: '30 15  5 7 *'
+    - cron: '30 04  6 7 *'
+    - cron: '30 15  6 7 *'
+    - cron: '30 04  7 7 *'
+    - cron: '30 15  7 7 *'
+    - cron: '30 04  8 7 *'
+
+    # ── 9–11 JUL ── Cuartos (2 partidos/día)
+    - cron: '30 15  9 7 *'
+    - cron: '30 04 10 7 *'
+    - cron: '30 15 10 7 *'
+    - cron: '30 04 11 7 *'
+    - cron: '30 15 11 7 *'
+    - cron: '30 04 12 7 *'
+
+    # ── 14–15 JUL ── Semifinales (1 partido/día)
+    - cron: '30 15 14 7 *'
+    - cron: '30 04 15 7 *'
+    - cron: '30 15 15 7 *'
+    - cron: '30 04 16 7 *'
+
+    # ── 18 JUL ── Tercer lugar
     - cron: '30 15 18 7 *'
-    - cron: '30 00 19 7 *'
+    - cron: '30 04 19 7 *'
 
-    # ── 19 JUL – FINAL (15:00 mx placeholder)
-    - cron: '30 19 19 7 *'
+    # ── 19 JUL ── FINAL
+    - cron: '30 15 19 7 *'
     - cron: '30 04 20 7 *'
 
-  # Permite cambiar manualmente desde GitHub Actions
   workflow_dispatch:
     inputs:
       version:
@@ -156,7 +192,6 @@ env:
 
 jobs:
 
-  # ─── Activa versión MUNDIAL ───────────────────────────────
   deploy-mundial:
     if: |
       (github.event_name == 'workflow_dispatch' && github.event.inputs.version == 'mundial') ||
@@ -166,34 +201,34 @@ jobs:
       github.event.schedule == '30 15 14 6 *' ||
       github.event.schedule == '30 14 15 6 *' ||
       github.event.schedule == '30 17 16 6 *' ||
-      github.event.schedule == '30 00 18 6 *' ||
+      github.event.schedule == '30 15 17 6 *' ||
       github.event.schedule == '30 14 18 6 *' ||
       github.event.schedule == '30 17 19 6 *' ||
       github.event.schedule == '30 15 20 6 *' ||
       github.event.schedule == '30 14 21 6 *' ||
-      github.event.schedule == '30 19 22 6 *' ||
-      github.event.schedule == '30 14 23 6 *' ||
+      github.event.schedule == '30 15 22 6 *' ||
+      github.event.schedule == '30 15 23 6 *' ||
       github.event.schedule == '30 17 24 6 *' ||
       github.event.schedule == '30 18 25 6 *' ||
       github.event.schedule == '30 17 26 6 *' ||
-      github.event.schedule == '30 14 27 6 *' ||
-      github.event.schedule == '30 14 28 6 *' ||
-      github.event.schedule == '30 14 29 6 *' ||
-      github.event.schedule == '30 14 30 6 *' ||
-      github.event.schedule == '30 14  1 7 *' ||
-      github.event.schedule == '30 14  2 7 *' ||
-      github.event.schedule == '30 14  3 7 *' ||
-      github.event.schedule == '30 14  4 7 *' ||
-      github.event.schedule == '30 14  5 7 *' ||
-      github.event.schedule == '30 14  6 7 *' ||
-      github.event.schedule == '30 14  7 7 *' ||
-      github.event.schedule == '30 14  9 7 *' ||
-      github.event.schedule == '30 14 10 7 *' ||
-      github.event.schedule == '30 14 11 7 *' ||
-      github.event.schedule == '30 14 14 7 *' ||
-      github.event.schedule == '30 14 15 7 *' ||
+      github.event.schedule == '30 19 27 6 *' ||
+      github.event.schedule == '30 15 28 6 *' ||
+      github.event.schedule == '30 15 29 6 *' ||
+      github.event.schedule == '30 15 30 6 *' ||
+      github.event.schedule == '30 15  1 7 *' ||
+      github.event.schedule == '30 15  2 7 *' ||
+      github.event.schedule == '30 15  3 7 *' ||
+      github.event.schedule == '30 15  4 7 *' ||
+      github.event.schedule == '30 15  5 7 *' ||
+      github.event.schedule == '30 15  6 7 *' ||
+      github.event.schedule == '30 15  7 7 *' ||
+      github.event.schedule == '30 15  9 7 *' ||
+      github.event.schedule == '30 15 10 7 *' ||
+      github.event.schedule == '30 15 11 7 *' ||
+      github.event.schedule == '30 15 14 7 *' ||
+      github.event.schedule == '30 15 15 7 *' ||
       github.event.schedule == '30 15 18 7 *' ||
-      github.event.schedule == '30 19 19 7 *'
+      github.event.schedule == '30 15 19 7 *'
     runs-on: ubuntu-latest
     steps:
       - name: 🌍 Activar versión MUNDIAL
@@ -202,7 +237,6 @@ jobs:
           curl -sf -X POST "${{ env.DEPLOY_HOOK }}&ref=${{ env.SHA_MUNDIAL }}"
           echo "✅ Deploy disparado"
 
-  # ─── Restaura versión BANNER ──────────────────────────────
   deploy-banner:
     if: |
       (github.event_name == 'workflow_dispatch' && github.event.inputs.version == 'banner') ||
@@ -210,35 +244,35 @@ jobs:
       github.event.schedule == '30 02 13 6 *' ||
       github.event.schedule == '30 05 14 6 *' ||
       github.event.schedule == '30 03 15 6 *' ||
-      github.event.schedule == '30 01 16 6 *' ||
-      github.event.schedule == '30 00 17 6 *' ||
+      github.event.schedule == '30 02 16 6 *' ||
+      github.event.schedule == '30 05 17 6 *' ||
       github.event.schedule == '30 03 18 6 *' ||
-      github.event.schedule == '30 03 19 6 *' ||
+      github.event.schedule == '30 02 19 6 *' ||
       github.event.schedule == '30 05 20 6 *' ||
       github.event.schedule == '30 05 21 6 *' ||
-      github.event.schedule == '30 03 22 6 *' ||
-      github.event.schedule == '30 01 23 6 *' ||
-      github.event.schedule == '30 05 24 6 *' ||
-      github.event.schedule == '30 04 25 6 *' ||
-      github.event.schedule == '30 01 26 6 *' ||
+      github.event.schedule == '30 02 22 6 *' ||
+      github.event.schedule == '30 04 23 6 *' ||
+      github.event.schedule == '30 03 24 6 *' ||
+      github.event.schedule == '30 02 25 6 *' ||
+      github.event.schedule == '30 03 26 6 *' ||
       github.event.schedule == '30 04 27 6 *' ||
-      github.event.schedule == '30 05 28 6 *' ||
-      github.event.schedule == '30 03 29 6 *' ||
-      github.event.schedule == '30 03 30 6 *' ||
-      github.event.schedule == '30 03  1 7 *' ||
-      github.event.schedule == '30 03  2 7 *' ||
-      github.event.schedule == '30 03  3 7 *' ||
-      github.event.schedule == '30 03  4 7 *' ||
-      github.event.schedule == '30 03  5 7 *' ||
-      github.event.schedule == '30 03  6 7 *' ||
-      github.event.schedule == '30 03  7 7 *' ||
-      github.event.schedule == '30 03  8 7 *' ||
-      github.event.schedule == '30 03 10 7 *' ||
-      github.event.schedule == '30 03 11 7 *' ||
-      github.event.schedule == '30 03 12 7 *' ||
-      github.event.schedule == '30 03 15 7 *' ||
-      github.event.schedule == '30 03 16 7 *' ||
-      github.event.schedule == '30 00 19 7 *' ||
+      github.event.schedule == '30 03 28 6 *' ||
+      github.event.schedule == '30 04 29 6 *' ||
+      github.event.schedule == '30 04 30 6 *' ||
+      github.event.schedule == '30 04  1 7 *' ||
+      github.event.schedule == '30 04  2 7 *' ||
+      github.event.schedule == '30 04  3 7 *' ||
+      github.event.schedule == '30 04  4 7 *' ||
+      github.event.schedule == '30 04  5 7 *' ||
+      github.event.schedule == '30 04  6 7 *' ||
+      github.event.schedule == '30 04  7 7 *' ||
+      github.event.schedule == '30 04  8 7 *' ||
+      github.event.schedule == '30 04 10 7 *' ||
+      github.event.schedule == '30 04 11 7 *' ||
+      github.event.schedule == '30 04 12 7 *' ||
+      github.event.schedule == '30 04 15 7 *' ||
+      github.event.schedule == '30 04 16 7 *' ||
+      github.event.schedule == '30 04 19 7 *' ||
       github.event.schedule == '30 04 20 7 *'
     runs-on: ubuntu-latest
     steps:
