@@ -11,6 +11,15 @@ const SECCIONES = [
   'https://www.globalmedia.mx/sections/ENTRETENIMIENTO',
 ];
 
+// Solo se capturan los banners con este nombre en el panel: "VERSION 16" a "VERSION 21".
+// Para cambiar la lista, ajusta este rango.
+const VERSION_DESDE = 16;
+const VERSION_HASTA = 21;
+const bannerElegido = (nombre) => {
+  const m = String(nombre).match(/^\s*VERSI[OÓ]N\s*(\d+)\s*$/i);
+  return !!m && Number(m[1]) >= VERSION_DESDE && Number(m[1]) <= VERSION_HASTA;
+};
+
 const TZ = 'America/Mexico_City';
 const fecha = new Intl.DateTimeFormat('en-CA', { timeZone: TZ }).format(new Date()); // AAAA-MM-DD
 const limpio = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -34,7 +43,7 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
   });
 
   // Banners de cada carrusel (sin repetir el mismo banner dos veces en la sección).
-  const banners = await page.evaluate(() => {
+  const todos = await page.evaluate(() => {
     const vistos = new Set();
     const lista = [];
     document.querySelectorAll('.banners-container').forEach((cont, c) => {
@@ -49,7 +58,8 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
     return lista;
   });
 
-  if (!banners.length) console.log(`  ${seccion}: no hay banners activos`);
+  const banners = todos.filter((b) => bannerElegido(b.nombre));
+  if (!banners.length) console.log(`  ${seccion}: no hay banners de VERSION ${VERSION_DESDE} a ${VERSION_HASTA} activos`);
 
   for (const b of banners) {
     const hora = new Intl.DateTimeFormat('es-MX', { timeZone: TZ, dateStyle: 'long', timeStyle: 'short' }).format(new Date());
