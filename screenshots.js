@@ -5,7 +5,8 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 const SECCIONES = [
-  'https://www.globalmedia.mx/sections/San-Luis',
+  'https://www.globalmedia.mx/',
+  'https://www.globalmedia.mx/sections/M%C3%89XICO',
   'https://www.globalmedia.mx/sections/MUNDO',
   'https://www.globalmedia.mx/sections/Negocios',
   'https://www.globalmedia.mx/sections/ENTRETENIMIENTO',
@@ -25,7 +26,7 @@ const fecha = new Intl.DateTimeFormat('en-CA', { timeZone: TZ }).format(new Date
 const limpio = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 
 async function capturarSeccion(browser, url, carpeta, resumen) {
-  const seccion = decodeURIComponent(url.split('/sections/')[1] || url);
+  const seccion = url.includes('/sections/') ? decodeURIComponent(url.split('/sections/')[1]) : 'Portada';
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
   try {
