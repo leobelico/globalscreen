@@ -35,6 +35,16 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
     console.log(`  (aviso) ${seccion}: ${e.message}`);
   }
 
+  // Recorrer la página hasta abajo para que carguen las imágenes que solo aparecen al bajar.
+  await page.evaluate(async () => {
+    for (let y = 0; y < document.body.scrollHeight; y += 700) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    window.scrollTo(0, 0);
+  });
+  await page.waitForNetworkIdle({ idleTime: 800, timeout: 20000 }).catch(() => {});
+
   // Detener la rotación automática para que no cambie el banner a media captura.
   await page.evaluate(() => {
     const ultimo = setTimeout(() => {}, 0);
@@ -70,18 +80,21 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
         el.style.setProperty('opacity', j === i ? '1' : '0', 'important');
         el.style.setProperty('visibility', j === i ? 'visible' : 'hidden', 'important');
       });
-      // Banner a la vista, un poco abajo del menú.
-      const top = cont.getBoundingClientRect().top + window.scrollY - 160;
-      window.scrollTo(0, Math.max(0, top));
+      window.scrollTo(0, 0);
 
+      // El sello va justo debajo del banner, alineado a su orilla derecha.
       let sello = document.getElementById('gm-testigo-sello');
       if (!sello) {
         sello = document.createElement('div');
         sello.id = 'gm-testigo-sello';
-        sello.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:2147483647;background:rgba(0,0,0,.78);color:#fff;'
+        sello.style.cssText = 'position:absolute;z-index:2147483647;background:rgba(0,0,0,.82);color:#fff;'
           + 'font:600 15px/1.35 Arial,sans-serif;padding:10px 14px;border-radius:6px;max-width:520px;pointer-events:none';
         document.body.appendChild(sello);
       }
+      const r = cont.getBoundingClientRect();
+      sello.style.top = `${r.bottom + window.scrollY + 6}px`;
+      sello.style.left = 'auto';
+      sello.style.right = `${Math.max(8, document.documentElement.clientWidth - (r.right + window.scrollX))}px`;
       sello.innerHTML = '';
       [`Testigo: ${hora} (hora del centro)`, `Sección: ${seccion} (${location.host})`, `Banner: ${nombre}`].forEach((t) => {
         const d = document.createElement('div');
@@ -99,7 +112,7 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
     await new Promise((r) => setTimeout(r, 400));
 
     const archivo = `${carpeta}/${limpio(seccion)}__${b.id}-${limpio(b.nombre)}.jpg`;
-    await page.screenshot({ path: archivo, type: 'jpeg', quality: 80 });
+    await page.screenshot({ path: archivo, type: 'jpeg', quality: 70, fullPage: true });
     resumen.push({ seccion, banner: b.nombre, id: b.id, archivo, ok: cargo });
     console.log(`  ${cargo ? 'ok' : 'SIN IMAGEN'}  ${seccion}: ${b.nombre}`);
   }
