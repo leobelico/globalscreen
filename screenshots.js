@@ -1,6 +1,6 @@
 // Testigos diarios: una captura por cada banner activo en las secciones elegidas.
 // Los banners rotan, así que para cada uno se detiene la rotación, se deja visible solo ese banner
-// y se toma la captura con la fecha, la hora y el nombre del banner encima.
+// y se captura la página completa, sin agregarle nada. La hora de cada captura queda en resumen.csv.
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
@@ -74,7 +74,7 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
 
   for (const b of banners) {
     const hora = new Intl.DateTimeFormat('es-MX', { timeZone: TZ, dateStyle: 'long', timeStyle: 'short' }).format(new Date());
-    await page.evaluate(({ c, i, nombre, seccion, hora }) => {
+    await page.evaluate(({ c, i }) => {
       const cont = document.querySelectorAll('.banners-container')[c];
       const items = cont.querySelectorAll(':scope > .slider-item');
       items.forEach((el, j) => {
@@ -82,27 +82,7 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
         el.style.setProperty('visibility', j === i ? 'visible' : 'hidden', 'important');
       });
       window.scrollTo(0, 0);
-
-      // El sello va justo debajo del banner, alineado a su orilla derecha.
-      let sello = document.getElementById('gm-testigo-sello');
-      if (!sello) {
-        sello = document.createElement('div');
-        sello.id = 'gm-testigo-sello';
-        sello.style.cssText = 'position:absolute;z-index:2147483647;background:rgba(0,0,0,.82);color:#fff;'
-          + 'font:600 15px/1.35 Arial,sans-serif;padding:10px 14px;border-radius:6px;max-width:520px;pointer-events:none';
-        document.body.appendChild(sello);
-      }
-      const r = cont.getBoundingClientRect();
-      sello.style.top = `${r.bottom + window.scrollY + 6}px`;
-      sello.style.left = 'auto';
-      sello.style.right = `${Math.max(8, document.documentElement.clientWidth - (r.right + window.scrollX))}px`;
-      sello.innerHTML = '';
-      [`Testigo: ${hora} (hora del centro)`, `Sección: ${seccion} (${location.host})`, `Banner: ${nombre}`].forEach((t) => {
-        const d = document.createElement('div');
-        d.textContent = t;
-        sello.appendChild(d);
-      });
-    }, { ...b, seccion, hora });
+    }, b);
 
     // Esperar a que la imagen del banner termine de cargar.
     const cargo = await page.waitForFunction(({ c, i }) => {
@@ -114,7 +94,7 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
 
     const archivo = `${carpeta}/${limpio(seccion)}__${b.id}-${limpio(b.nombre)}.jpg`;
     await page.screenshot({ path: archivo, type: 'jpeg', quality: 70, fullPage: true });
-    resumen.push({ seccion, banner: b.nombre, id: b.id, archivo, ok: cargo });
+    resumen.push({ seccion, banner: b.nombre, id: b.id, archivo, ok: cargo, hora });
     console.log(`  ${cargo ? 'ok' : 'SIN IMAGEN'}  ${seccion}: ${b.nombre}`);
   }
   await page.close();
@@ -135,8 +115,8 @@ async function capturarSeccion(browser, url, carpeta, resumen) {
   await browser.close();
 
   // Lista para buscar rápido qué banner salió en qué sección.
-  const csv = ['seccion,banner_id,banner,archivo,imagen_cargada',
-    ...resumen.map((r) => [r.seccion, r.id, `"${r.banner.replace(/"/g, '""')}"`, r.archivo.split('/').pop(), r.ok ? 'si' : 'no'].join(','))];
+  const csv = ['seccion,banner_id,banner,archivo,imagen_cargada,hora_captura',
+    ...resumen.map((r) => [r.seccion, r.id, `"${r.banner.replace(/"/g, '""')}"`, r.archivo.split('/').pop(), r.ok ? 'si' : 'no', `"${r.hora}"`].join(','))];
   fs.writeFileSync(`${carpeta}/resumen.csv`, '﻿' + csv.join('\n'));
   console.log(`\n${resumen.length} testigos guardados en ${carpeta}`);
   if (!resumen.length) process.exitCode = 1;
