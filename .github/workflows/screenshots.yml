@@ -27,6 +27,13 @@ jobs:
           # Corrida a mano: siempre toma capturas.
           if [ "${{ github.event_name }}" != "schedule" ]; then echo "correr=si" >> "$GITHUB_OUTPUT"; exit 0; fi
           hoy=$(TZ=America/Mexico_City date +%F)
+          # GitHub a veces arranca los programados con horas de retraso: fuera de 9:00 a 16:59
+          # (hora del centro) no se toman capturas, para que no salgan de noche.
+          hora=$(TZ=America/Mexico_City date +%-H)
+          if [ "$hora" -lt 9 ] || [ "$hora" -gt 16 ]; then
+            echo "Llegó tarde (son las $hora h en México): no se toman capturas."
+            echo "correr=no" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           hechas=$(gh run list -R "${{ github.repository }}" --workflow screenshots.yml --status success --limit 20 \
             --json createdAt,databaseId \
             | jq --arg hoy "$hoy" --argjson yo "${{ github.run_id }}" \
